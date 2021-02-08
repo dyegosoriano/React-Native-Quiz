@@ -1,26 +1,31 @@
 import React from 'react'
 
-import { Description, Container, TitleWelcome, Header, Title } from './styles'
+import { Description, TitleWelcome, Title, Strong } from './styles'
 
+import ApplicationBody from '../../components/ApplicationBody'
 import Button from '../../components/Button'
 
 const Home: React.FC = () => {
   return (
-    <Container>
-      <Header>
-        <TitleWelcome>Bem vindo ao</TitleWelcome>
-        <Title>Conhecimento é poder</Title>
+    <ApplicationBody button={<Button title="Iniciar" destiny="Question" />}>
+      <TitleWelcome>
+        <Strong>Bem vindo ao</Strong>
+      </TitleWelcome>
 
-        <Description>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus
-          eveniet ex, quisquam itaque, dolorum explicabo vero porro fuga
-          accusantium minima iste asperiores quidem eaque mollitia doloribus
-          nisi optio nemo exercitationem?
-        </Description>
-      </Header>
+      <Title>Conhecimento é poder</Title>
 
-      <Button title="Iniciar" />
-    </Container>
+      <Description>
+        O quiz é o nosso jogo de perguntas e respostas sobre conhecimentos
+        gerais envolvendo várias matérias. Aqui você pode testar os seus
+        conhecimentos de forma interativa e divertida!
+      </Description>
+      <Description>
+        <Strong>Como funciona:</Strong> São 15 perguntas e cada pergunta vale 1
+        ponto, clique na alternativa que você considere correta. No final do
+        quiz você obterá seu resultado.
+      </Description>
+      <Description>Boa sorte!</Description>
+    </ApplicationBody>
   )
 }
 
