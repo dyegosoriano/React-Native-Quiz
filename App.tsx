@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
+
+import { Container } from './src/styles/global'
 
 export default function App() {
   return (
-    <View>
+    <Container>
+      <StatusBar style="light" />
       <Text>Olá mundo!!!</Text>
-      <StatusBar style="auto" />
-    </View>
+    </Container>
   )
 }
