@@ -1,5 +1,10 @@
 import styled from 'styled-components/native'
 
+export const Header = styled.View`
+  justify-content: space-between;
+  margin-top: 64px;
+`
+
 export const TitleWelcome = styled.Text`
   font-size: 32px;
   color: #fff;
