@@ -1,20 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-import { Title, Score, Description } from './styles'
+import { Header, Title, Score, Description } from './styles'
 
+import { QuestionsContext } from '../../context/QuestionContext'
 import ApplicationBody from '../../components/ApplicationBody'
 import Button from '../../components/Button'
 
 const Punctuation: React.FC = () => {
+  const { score } = useContext(QuestionsContext)
+
   return (
-    <ApplicationBody
-      button={<Button title="Voltar ao inicio" destiny="Home" />}
-    >
-      <Title>Você acertou</Title>
+    <ApplicationBody>
+      <Header>
+        <Title>Você acertou</Title>
 
-      <Score>15</Score>
+        <Score>{score}</Score>
 
-      <Description>questões</Description>
+        <Description>questões</Description>
+      </Header>
+
+      <Button title="Voltar ao inicio" destiny="Home" />
     </ApplicationBody>
   )
 }

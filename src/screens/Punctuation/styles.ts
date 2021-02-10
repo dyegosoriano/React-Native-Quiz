@@ -1,5 +1,9 @@
 import styled from 'styled-components/native'
 
+export const Header = styled.View`
+  margin-top: 64px;
+`
+
 export const Title = styled.Text`
   text-align: center;
   font-size: 32px;
