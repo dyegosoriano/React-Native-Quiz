@@ -7,7 +7,3 @@ export const Container = styled.View`
   justify-content: space-between;
   flex: 1;
 `
-
-export const Header = styled.View`
-  margin-top: 64px;
-`
