@@ -25,13 +25,13 @@ const Question: React.FC = () => {
   const navigation = useNavigation()
 
   function handleNextQuestion() {
-    if (counter < totalQuestions - 1) setCounter(counter + 1)
     if (counter === totalQuestions - 1) navigation.navigate('Punctuation')
+    if (counter < totalQuestions - 1) setCounter(counter + 1)
   }
 
   function handleBackQuestion() {
-    if (counter > 0) setCounter(counter - 1)
     if (counter === 0) navigation.navigate('Home')
+    if (counter > 0) setCounter(counter - 1)
   }
 
   useEffect(() => {
@@ -64,13 +64,13 @@ const Question: React.FC = () => {
 
       <Footer>
         <Button onPress={handleBackQuestion}>
-          <Feather name="arrow-left" color="#5e67f0" size={24} />
+          <Feather name={counter === 0 ? 'x-octagon' : 'arrow-left'} color="#5e67f0" size={24} />
           <ButtonText>{counter === 0 ? 'Cancelar' : 'Voltar'}</ButtonText>
         </Button>
 
         <Button onPress={handleNextQuestion}>
           <ButtonText>{counter === totalQuestions - 1 ? 'Finalizar' : 'Proximo'}</ButtonText>
-          <Feather name="arrow-right" color="#5e67f0" size={24} />
+          <Feather name={counter === totalQuestions - 1 ? 'check' : 'arrow-right'} color="#5e67f0" size={24} />
         </Button>
       </Footer>
     </ApplicationBody>
