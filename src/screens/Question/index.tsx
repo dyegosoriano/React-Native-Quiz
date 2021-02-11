@@ -1,50 +1,78 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { Feather } from '@expo/vector-icons'
 
 import {
+  NumberQuestion,
   AnswerOptions,
   QuestionText,
-  QuestionBox,
   AnswerText,
-  AnswerBox
+  ButtonText,
+  AnswerBox,
+  Header,
+  Footer,
+  Button
 } from './styles'
 
+import { QuestionsContext } from '../../context/QuestionContext'
 import ApplicationBody from '../../components/ApplicationBody'
-import Button from '../../components/Button'
 
 const Question: React.FC = () => {
+  const { questions, totalQuestions } = useContext(QuestionsContext)
+  const [currentQuestion, setCurrentQuestion] = useState(questions[0])
+  const [counter, setCounter] = useState(0)
+
+  const navigation = useNavigation()
+
+  function handleNextQuestion() {
+    if (counter < totalQuestions - 1) setCounter(counter + 1)
+    if (counter === totalQuestions - 1) navigation.navigate('Punctuation')
+  }
+
+  function handleBackQuestion() {
+    if (counter > 0) setCounter(counter - 1)
+    if (counter === 0) navigation.navigate('Home')
+  }
+
+  useEffect(() => {
+    setCurrentQuestion(questions[counter])
+
+    console.log(`Contador -> ${counter} | Total de questões -> ${totalQuestions}`)
+  }, [counter])
+
   return (
-    <ApplicationBody button={<Button title="Avançar" destiny="Punctuation" />}>
-      <QuestionBox>
-        <QuestionText>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur,
-          ullam consequuntur cumque nostrum id maxime quisquam voluptatum
-          laudantium alias dolore autem praesentium perspiciatis incidunt ut
-          accusamus omnis magnam eligendi debitis.
-        </QuestionText>
+    <ApplicationBody>
+      <Header>
+        <NumberQuestion>{`Pergunta ${counter + 1}/${totalQuestions}`}</NumberQuestion>
+
+        <QuestionText>{currentQuestion.questionText}</QuestionText>
 
         <AnswerOptions>
-          <AnswerBox>
-            <AnswerText>Opção 01</AnswerText>
-            <Feather size={24} color="#5e67f0" name="circle" />
-          </AnswerBox>
+          {currentQuestion.answerOptions.map(item => {
+            const { id, active, answerText } = item
 
-          <AnswerBox>
-            <AnswerText>Opção 02</AnswerText>
-            <Feather size={24} color="#5e67f0" name="circle" />
-          </AnswerBox>
+            return (
+              <AnswerBox key={id} active={active} onPress={() => {}}>
+                <AnswerText active={active}>{answerText}</AnswerText>
 
-          <AnswerBox>
-            <AnswerText>Opção 03</AnswerText>
-            <Feather size={24} color="#5e67f0" name="circle" />
-          </AnswerBox>
-
-          <AnswerBox>
-            <AnswerText>Opção 04</AnswerText>
-            <Feather size={24} color="#5e67f0" name="circle" />
-          </AnswerBox>
+                <Feather name={active ? 'check-circle' : 'circle'} color={active ? '#FFF' : '#5e67f0'} size={24} />
+              </AnswerBox>
+            )
+          })}
         </AnswerOptions>
-      </QuestionBox>
+      </Header>
+
+      <Footer>
+        <Button onPress={handleBackQuestion}>
+          <Feather name="arrow-left" color="#5e67f0" size={24} />
+          <ButtonText>{counter === 0 ? 'Cancelar' : 'Voltar'}</ButtonText>
+        </Button>
+
+        <Button onPress={handleNextQuestion}>
+          <ButtonText>{counter === totalQuestions - 1 ? 'Finalizar' : 'Proximo'}</ButtonText>
+          <Feather name="arrow-right" color="#5e67f0" size={24} />
+        </Button>
+      </Footer>
     </ApplicationBody>
   )
 }
