@@ -11,5 +11,5 @@ export const Container = styled.TouchableOpacity`
 export const Text = styled.Text`
   text-align: center;
   font-size: 32px;
-  color: #000;
+  color: #5e67f0;
 `
