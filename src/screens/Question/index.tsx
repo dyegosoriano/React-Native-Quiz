@@ -35,9 +35,9 @@ const Question: React.FC = () => {
   }
 
   function handleSelect(answerID: number, isCorrect: boolean) {
-    handleSelectedAnswer(currentQuestion.questionID, isCorrect)
-
     currentQuestion.answerOptions.map(item => (item.id === answerID ? (item.active = true) : (item.active = false)))
+
+    handleSelectedAnswer(currentQuestion.questionID, isCorrect)
   }
 
   useEffect(() => {

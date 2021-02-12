@@ -21,7 +21,7 @@ export const QuestionsContext = createContext<ContextInterface>({} as ContextInt
 
 const QuestionsContextProvider: React.FC = ({ children }) => {
   const totalQuestions = quizData.data.length
-  const questions = quizData.data
+  let questions = quizData.data
 
   const [answeredQuestions, setAnsweredQuestions] = useState<AnsweredQuestionsInterface[]>([])
   const [score, setScore] = useState(0)
@@ -29,21 +29,21 @@ const QuestionsContextProvider: React.FC = ({ children }) => {
   function handleSelectedAnswer(questionID: number, isCorrect: boolean) {
     const answerExist = answeredQuestions.find(item => item.questionID === questionID)
 
-    if (!answerExist && !isCorrect) {
+    if (!answerExist || !isCorrect) {
       const updateAnswerQuestions = answeredQuestions.filter(item => item.questionID !== questionID)
       setAnsweredQuestions(updateAnswerQuestions)
-
-      return
     }
 
     if (!answerExist && isCorrect) {
       setAnsweredQuestions([...answeredQuestions, { questionID, isCorrect }])
-
-      return
     }
   }
 
   function handleResetScore() {
+    questions.map(question => {
+      question.answerOptions.map(item => (item.active = false))
+    })
+
     setAnsweredQuestions([])
     setScore(0)
   }
