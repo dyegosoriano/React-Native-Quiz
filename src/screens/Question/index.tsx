@@ -34,6 +34,12 @@ const Question: React.FC = () => {
     if (counter > 0) setCounter(counter - 1)
   }
 
+  function handleSelect(answerID: number, isCorrect: boolean) {
+    handleSelectedAnswer(currentQuestion.questionID, isCorrect)
+
+    currentQuestion.answerOptions.map(item => (item.id === answerID ? (item.active = true) : (item.active = false)))
+  }
+
   useEffect(() => {
     setCurrentQuestion(questions[counter])
   }, [counter])
@@ -50,11 +56,7 @@ const Question: React.FC = () => {
             const { id, active, answerText, isCorrect } = item
 
             return (
-              <AnswerBox
-                onPress={() => handleSelectedAnswer(currentQuestion.questionID, isCorrect)}
-                active={active}
-                key={id}
-              >
+              <AnswerBox onPress={() => handleSelect(id, isCorrect)} active={active} key={id}>
                 <AnswerText active={active}>{answerText}</AnswerText>
 
                 <Feather name={active ? 'check-circle' : 'circle'} color={active ? '#FFF' : '#5e67f0'} size={24} />
