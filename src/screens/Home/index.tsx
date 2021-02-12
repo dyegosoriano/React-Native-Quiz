@@ -28,7 +28,7 @@ const Home: React.FC = () => {
         <Description>Boa sorte!</Description>
       </Header>
 
-      <Button title="Iniciar" destiny="Question" />
+      <Button title="Iniciar" destiny="Question" reset={true} />
     </ApplicationBody>
   )
 }

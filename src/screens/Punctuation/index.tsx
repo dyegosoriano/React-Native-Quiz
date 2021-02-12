@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import { Header, Title, Score, Description } from './styles'
 
@@ -7,7 +7,9 @@ import ApplicationBody from '../../components/ApplicationBody'
 import Button from '../../components/Button'
 
 const Punctuation: React.FC = () => {
-  const { score } = useContext(QuestionsContext)
+  const { score, handleScore } = useContext(QuestionsContext)
+
+  useEffect(handleScore, [])
 
   return (
     <ApplicationBody>

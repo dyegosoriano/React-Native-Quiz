@@ -18,7 +18,7 @@ import { QuestionsContext } from '../../context/QuestionContext'
 import ApplicationBody from '../../components/ApplicationBody'
 
 const Question: React.FC = () => {
-  const { questions, totalQuestions } = useContext(QuestionsContext)
+  const { questions, totalQuestions, handleSelectedAnswer } = useContext(QuestionsContext)
   const [currentQuestion, setCurrentQuestion] = useState(questions[0])
   const [counter, setCounter] = useState(0)
 
@@ -36,8 +36,6 @@ const Question: React.FC = () => {
 
   useEffect(() => {
     setCurrentQuestion(questions[counter])
-
-    console.log(`Contador -> ${counter} | Total de questões -> ${totalQuestions}`)
   }, [counter])
 
   return (
@@ -49,10 +47,14 @@ const Question: React.FC = () => {
 
         <AnswerOptions>
           {currentQuestion.answerOptions.map(item => {
-            const { id, active, answerText } = item
+            const { id, active, answerText, isCorrect } = item
 
             return (
-              <AnswerBox key={id} active={active} onPress={() => {}}>
+              <AnswerBox
+                onPress={() => handleSelectedAnswer(currentQuestion.questionID, isCorrect)}
+                active={active}
+                key={id}
+              >
                 <AnswerText active={active}>{answerText}</AnswerText>
 
                 <Feather name={active ? 'check-circle' : 'circle'} color={active ? '#FFF' : '#5e67f0'} size={24} />
