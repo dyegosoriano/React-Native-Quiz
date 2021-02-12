@@ -1,22 +1,64 @@
 import React, { createContext, useState } from 'react'
 
-import questionsData, { QuestionDataInterface } from '../data/questions'
+import QuestionDataInterface from '../types/questions'
+import quizData from '../data/quiz.json'
 
-interface QuestionsInterface {
+interface ContextInterface {
   questions: QuestionDataInterface[]
+  handleSelectedAnswer: any
   totalQuestions: number
+  handleResetScore: any
+  handleScore: any
   score: number
 }
 
-export const QuestionsContext = createContext<QuestionsInterface>({} as QuestionsInterface)
+interface AnsweredQuestionsInterface {
+  questionID: number
+  isCorrect: boolean
+}
+
+export const QuestionsContext = createContext<ContextInterface>({} as ContextInterface)
 
 const QuestionsContextProvider: React.FC = ({ children }) => {
-  const totalQuestions = questionsData.length
-  const questions = questionsData
+  const totalQuestions = quizData.data.length
+  const questions = quizData.data
 
+  const [answeredQuestions, setAnsweredQuestions] = useState<AnsweredQuestionsInterface[]>([])
   const [score, setScore] = useState(0)
 
-  return <QuestionsContext.Provider value={{ score, questions, totalQuestions }}>{children}</QuestionsContext.Provider>
+  function handleSelectedAnswer(questionID: number, isCorrect: boolean) {
+    const answerExist = answeredQuestions.find(item => item.questionID === questionID)
+
+    if (!answerExist && !isCorrect) {
+      const updateAnswerQuestions = answeredQuestions.filter(item => item.questionID !== questionID)
+      setAnsweredQuestions(updateAnswerQuestions)
+
+      return
+    }
+
+    if (!answerExist && isCorrect) {
+      setAnsweredQuestions([...answeredQuestions, { questionID, isCorrect }])
+
+      return
+    }
+  }
+
+  function handleResetScore() {
+    setAnsweredQuestions([])
+    setScore(0)
+  }
+
+  function handleScore() {
+    setScore(answeredQuestions.length)
+  }
+
+  return (
+    <QuestionsContext.Provider
+      value={{ score, questions, totalQuestions, handleScore, handleResetScore, handleSelectedAnswer }}
+    >
+      {children}
+    </QuestionsContext.Provider>
+  )
 }
 
 export default QuestionsContextProvider
